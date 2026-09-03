@@ -1,0 +1,11 @@
+export default {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#0B3D91',
+        steel: '#71797E',
+        dark: '#1A1A1A',
+      },
+    },
+  },
+};

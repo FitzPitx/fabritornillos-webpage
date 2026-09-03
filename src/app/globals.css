@@ -1,26 +1,150 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   THEME TOKENS
+   Light = tema por defecto (nuevo).
+   [data-theme="dark"] = tu tema oscuro original, preservado intacto.
+   ========================================================================== */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Marca (sin cambios) */
+  --color-primary: #0B3D91;       /* Azul industrial */
+  --color-primary-light: #1E5AAE;
+  --color-secondary: #1A1A1A;     /* Negro (vignetas sobre fotos, sin cambio) */
+  --color-steel: #71797E;         /* Gris acero */
+  --color-steel-light: #B0B7BD;
+  --color-white: #FFFFFF;
+
+  /* Superficies / texto semánticos — TEMA CLARO (default) */
+  --bg-page: #F4F6F9;
+  --bg-surface: #FFFFFF;
+  --bg-surface-alt: #EDF1F6;
+  --bg-navbar: rgba(255, 255, 255, 0.88);
+  --bg-navbar-mobile: rgba(255, 255, 255, 0.98);
+  --text-heading: #0F172A;
+  --text-body: #475569;
+  --text-muted: #64748B;
+  --border-subtle: rgba(15, 23, 42, 0.09);
+  --scrollbar-track: #E2E6EC;
+
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(15, 23, 42, 0.08);
+  --glass-dark-bg: rgba(255, 255, 255, 0.92);
+  --glass-dark-border: rgba(11, 61, 145, 0.16);
+
+  --input-bg: #F1F5F9;
+  --input-border: rgba(15, 23, 42, 0.12);
+  --input-placeholder: #94A3B8;
+
+  /* Gradientes por sección */
+  --hero-gradient: linear-gradient(135deg, #101828 0%, #16305c 55%, var(--color-primary) 100%);
+  --hero-overlay: linear-gradient(135deg, color-mix(in srgb, #101828 90%, transparent) 0%, color-mix(in srgb, #16305c 75%, transparent) 55%, color-mix(in srgb, var(--color-primary) 55%, transparent) 100%);
+  --section-alt-bg: #EDF1F6;
+  --section-alt-bg-2: #E7ECF2;
+  --aboutus-gradient: linear-gradient(180deg, #FFFFFF 0%, #EDF1F6 100%);
+  --contact-gradient: linear-gradient(180deg, #EDF1F6 0%, #F4F6F9 100%);
+  --footer-gradient: linear-gradient(180deg, #E7ECF2 0%, #DCE2EA 100%);
+  --brands-gradient: linear-gradient(180deg, #EDF1F6 0%, #E2E8F0 100%);
+  --cta-gradient: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 55%, #4C86D6 100%);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+[data-theme="dark"] {
+  --bg-page: var(--color-secondary);
+  --bg-surface: #0f172a;
+  --bg-surface-alt: #0f172a;
+  --bg-navbar: rgba(26, 26, 26, 0.95);
+  --bg-navbar-mobile: rgba(26, 26, 26, 0.98);
+  --text-heading: #FFFFFF;
+  --text-body: #9CA3AF;
+  --text-muted: #6B7280;
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --scrollbar-track: #081123;
+
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-dark-bg: rgba(7, 17, 35, 0.68);
+  --glass-dark-border: rgba(30, 90, 174, 0.24);
+
+  --input-bg: rgba(30, 41, 59, 0.7);
+  --input-border: rgba(255, 255, 255, 0.1);
+  --input-placeholder: #6B7280;
+
+  --hero-gradient: linear-gradient(135deg, var(--color-secondary) 0%, #0f274f 55%, var(--color-primary) 100%);
+  --hero-overlay: linear-gradient(135deg, color-mix(in srgb, var(--color-secondary) 88%, transparent) 0%, color-mix(in srgb, #0f274f 75%, transparent) 55%, color-mix(in srgb, var(--color-primary) 55%, transparent) 100%);
+  --section-alt-bg: #0f172a;
+  --section-alt-bg-2: rgba(30, 41, 59, 0.5);
+  --aboutus-gradient: linear-gradient(180deg, #081123 0%, #0b152d 100%);
+  --contact-gradient: linear-gradient(180deg, #0b152d 0%, #081123 100%);
+  --footer-gradient: linear-gradient(180deg, #081123 0%, #040812 100%);
+  --brands-gradient: linear-gradient(180deg, #081123 0%, #0b152d 100%);
+  --cta-gradient: linear-gradient(135deg, #081123 0%, #0b3d91 50%, #1e5aae 100%);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  background: var(--bg-page);
+  transition: background-color 0.3s ease;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-heading);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb { background: var(--color-primary-light); border-radius: 3px; }
+
+::selection {
+  background: color-mix(in srgb, var(--color-primary) 55%, white);
+  color: white;
+}
+
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(30, 90, 174, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 90, 174, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-dark {
+  background: var(--glass-dark-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-dark-border);
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.animate-spin-slow { animation: spin-slow 24s linear infinite; }
+
+@keyframes ping-once {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  70%  { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.animate-ping-once { animation: ping-once 2s ease-out infinite; }
+
+.swiper-pagination-bullet {
+  background: var(--color-primary-light) !important;
+  opacity: 0.4 !important;
+  width: 8px !important;
+  height: 8px !important;
+}
+.swiper-pagination-bullet-active {
+  background: var(--color-primary) !important;
+  opacity: 1 !important;
+  width: 24px !important;
+  border-radius: 4px !important;
 }
