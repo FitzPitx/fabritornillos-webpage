@@ -24,12 +24,8 @@ export default function Hero() {
     <section
       id="inicio"
       className="relative min-h-screen flex flex-col justify-center overflow-hidden"
-      style={{
-        background:
-          'linear-gradient(135deg, var(--color-secondary) 0%, #0f274f 55%, var(--color-primary) 100%)',
-      }}
+      style={{ background: 'var(--hero-gradient)' }}
     >
-      {/* Video de fondo */}
       <video
         autoPlay
         muted
@@ -37,39 +33,22 @@ export default function Hero() {
         playsInline
         poster="/img/hero-bg.jpg"
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-        style={{
-          filter: 'brightness(0.55) saturate(0.9) contrast(1.05)',
-        }}
+        style={{ filter: 'brightness(0.55) saturate(0.9) contrast(1.05)' }}
       >
         <source src="/video/hero-industrial.mp4" type="video/mp4" />
         <source src="/video/hero-industrial.webm" type="video/webm" />
       </video>
 
-      {/* Overlay de color acorde a la marca, encima del video */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'linear-gradient(135deg, color-mix(in srgb, var(--color-secondary) 88%, transparent) 0%, color-mix(in srgb, #0f274f 75%, transparent) 55%, color-mix(in srgb, var(--color-primary) 55%, transparent) 100%)',
-        }}
-      />
-
-      {/* Blueprint grid overlay */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: 'var(--hero-overlay)' }} />
       <div className="absolute inset-0 grid-pattern opacity-40 pointer-events-none" />
 
-      {/* Decorative radial glow */}
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-225 h-150 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse at center, color-mix(in srgb, var(--color-primary) 22%, transparent) 0%, transparent 70%)',
-        }}
+        style={{ background: 'radial-gradient(ellipse at center, color-mix(in srgb, var(--color-primary) 22%, transparent) 0%, transparent 70%)' }}
       />
 
-      {/* Gradient lateral para legibilidad del texto */}
       <div className="absolute inset-0 bg-linear-to-r from-(--color-secondary)/95 via-(--color-secondary)/70 to-transparent pointer-events-none" />
 
-      {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24">
         <div className="max-w-3xl">
           <motion.div custom={0} initial="hidden" animate="visible" variants={fade} className="mb-8">
@@ -100,16 +79,10 @@ export default function Hero() {
             Más de 30 años suministrando productos industriales, fabricación de piezas especiales y soluciones para mantenimiento, manufactura y construcción.
           </motion.p>
 
-          <motion.div
-            custom={3}
-            initial="hidden"
-            animate="visible"
-            variants={fade}
-            className="flex flex-col sm:flex-row gap-4"
-          >
+          <motion.div custom={3} initial="hidden" animate="visible" variants={fade} className="flex flex-col sm:flex-row gap-4">
             <a
               href="#productos"
-              className="inline-flex items-center justify-center bg-(--color-primary) hover:bg-(--color-primary-light) text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:shadow-xl hover:shadow-(color:--color-primary)/30 text-base"
+              className="inline-flex items-center justify-center bg-(--color-primary) hover:bg-(--color-primary-light) text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:shadow-xl hover:shadow-(--color-primary)/30 text-base"
             >
               Cotizar por WhatsApp
             </a>
@@ -131,13 +104,10 @@ export default function Hero() {
           className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4"
         >
           {stats.map((stat, i) => (
-            <div
-              key={i}
-              className="glass rounded-2xl p-5 text-center border border-(--color-primary)/20 hover:border-(--color-primary-light)/40 transition-all duration-300 hover:shadow-lg hover:shadow-(color:--color-primary)/10"
-            >
+            <div key={i} className="glass rounded-2xl p-5 text-center border border-(--color-primary)/20 hover:border-(--color-primary-light)/40 transition-all duration-300 hover:shadow-lg hover:shadow-(--color-primary)/10">
               <div className="text-2xl mb-2">{stat.icon}</div>
               <div className="text-2xl font-bold text-(--color-primary-light)">{stat.value}</div>
-              <div className="text-xs text-(--color-steel-light) mt-1 leading-snug">{stat.label}</div>
+              <div className="text-xs text-white mt-1 leading-snug">{stat.label}</div>
             </div>
           ))}
         </motion.div>
@@ -146,7 +116,7 @@ export default function Hero() {
       <motion.div
         animate={{ y: [0, 8, 0] }}
         transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-(--color-steel) hidden md:block"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-(--color-steel-light) hidden md:block"
       >
         <ChevronDown size={26} />
       </motion.div>

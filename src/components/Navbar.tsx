@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
+import ThemeToggle from './ThemeToggle';
 
 const navLinks = [
   { href: '#inicio', label: 'Inicio' },
@@ -20,9 +21,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
-
     window.addEventListener('scroll', handleScroll, { passive: true });
-
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -30,19 +29,14 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled || isMobileMenuOpen
-          ? 'bg-[color:var(--color-secondary)]/95 backdrop-blur-md shadow-lg shadow-[color:var(--color-primary)]/8 border-b border-white/5'
+          ? 'bg-(--bg-navbar) backdrop-blur-md shadow-lg shadow-(--color-primary)/8 border-b border-(--border-subtle)'
           : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
 
-          {/* Logo real */}
-          <a
-            href="#inicio"
-            className="group relative flex items-center shrink-0"
-            aria-label="Ir al inicio de FabriTornillos"
-          >
+          <a href="#inicio" className="group relative flex items-center shrink-0" aria-label="Ir al inicio de FabriTornillos">
             <Image
               src="/img/logo-fabritornillos-jukebox-bg-removed.png"
               alt="FabriTornillos SAS - Miscelánea Industrial"
@@ -53,13 +47,12 @@ export default function Navbar() {
             />
           </a>
 
-          {/* Desktop Nav Links */}
           <div className="hidden md:flex items-center gap-7">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="relative text-gray-300 hover:text-(--color-primary-light) font-medium text-sm tracking-wide transition-colors group"
+                className="relative text-(--text-body) hover:text-(--color-primary-light) font-medium text-sm tracking-wide transition-colors group"
               >
                 {link.label}
                 <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-(--color-primary-light) transition-all duration-300 group-hover:w-full" />
@@ -67,20 +60,21 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA + Mobile toggle */}
           <div className="flex items-center gap-3">
+            <ThemeToggle />
+
             <a
               href="https://wa.me/573001234567?text=Hola%2C%20estoy%20interesado%20en%20sus%20productos"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden md:inline-flex items-center gap-2 bg-(--color-primary) hover:bg-(--color-primary-light) text-white font-semibold px-5 py-2.5 rounded-full transition-all hover:shadow-lg hover:shadow-[color:var(--color-primary)]/25 text-sm whitespace-nowrap"
+              className="hidden md:inline-flex items-center gap-2 bg-(--color-primary) hover:bg-(--color-primary-light) text-white font-semibold px-5 py-2.5 rounded-full transition-all hover:shadow-lg hover:shadow-(--color-primary)/25 text-sm whitespace-nowrap"
             >
               Solicitar Cotización
             </a>
 
             <button
               onClick={() => setIsMobileMenuOpen((v) => !v)}
-              className="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
+              className="md:hidden p-2 rounded-lg text-(--text-body) hover:text-(--text-heading) hover:bg-(--glass-bg) transition-colors"
               aria-label={isMobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
               aria-expanded={isMobileMenuOpen}
             >
@@ -90,7 +84,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile dropdown */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -98,7 +91,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="md:hidden overflow-hidden border-t border-white/10 bg-[color:var(--color-secondary)]/98"
+            className="md:hidden overflow-hidden border-t border-(--border-subtle) bg-(--bg-navbar-mobile)"
           >
             <div className="px-4 py-4 flex flex-col gap-1">
               {navLinks.map((link) => (
@@ -106,7 +99,7 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-gray-300 hover:text-(--color-primary-light) hover:bg-white/5 px-4 py-3 rounded-lg font-medium text-sm transition-colors"
+                  className="text-(--text-body) hover:text-(--color-primary-light) hover:bg-(--glass-bg) px-4 py-3 rounded-lg font-medium text-sm transition-colors"
                 >
                   {link.label}
                 </a>

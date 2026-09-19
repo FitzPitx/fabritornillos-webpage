@@ -3,10 +3,13 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, MessageCircle, CheckCircle2 } from 'lucide-react';
 import Image from 'next/image';
+import { useState } from 'react';
+import ProductDetailModal, { productDetails, type ProductDetail } from './ProductDetailModal';
 
 const products = [
   {
     id: 1,
+    slug: 'mangueras-s96',
     badge: 'Disponible',
     badgeColor: 'bg-(--color-primary) text-white',
     name: 'Mangueras S96',
@@ -19,6 +22,7 @@ const products = [
   },
   {
     id: 2,
+    slug: 'fabricacion-especial',
     badge: 'Fabricación especial',
     badgeColor: 'bg-(--color-primary-light) text-white',
     name: 'Fabricación especiales',
@@ -31,6 +35,7 @@ const products = [
   },
   {
     id: 3,
+    slug: 'ferreteria-industrial',
     badge: 'Disponible',
     badgeColor: 'bg-(--color-primary) text-white',
     name: 'Ferretería industrial',
@@ -43,6 +48,7 @@ const products = [
   },
   {
     id: 4,
+    slug: 'tornilleria',
     badge: 'Bajo pedido',
     badgeColor: 'bg-(--color-primary-light) text-white',
     name: 'Tornillería',
@@ -64,11 +70,17 @@ const cardVariants = {
 };
 
 export default function FeaturedProducts() {
+  const [activeProduct, setActiveProduct] = useState<ProductDetail | null>(null);
+
+  const openDetails = (id: number) => {
+    const detail = productDetails.find((p) => p.id === id) ?? null;
+    setActiveProduct(detail);
+  };
+
   return (
-    <section className="py-24 bg-[color:var(--color-secondary)]" id="destacados">
+    <section className="py-24 bg-(--bg-page)" id="destacados">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -79,27 +91,26 @@ export default function FeaturedProducts() {
           <span className="inline-block text-(--color-primary-light) font-semibold text-sm tracking-widest uppercase mb-3">
             Catálogo
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-(--text-heading) mb-4">
             Productos Destacados
           </h2>
-          <p className="text-slate-500 text-lg max-w-2xl mx-auto">
+          <p className="text-(--text-muted) text-lg max-w-2xl mx-auto">
             Mangueras S96, fabricación especial, ferretería industrial y tornillería con marcas comerciales de respaldo.
           </p>
         </motion.div>
 
-        {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {products.map((p, i) => (
             <motion.div
               key={p.id}
+              id={`producto-${p.slug}`}
               custom={i}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               variants={cardVariants}
-              className={`group bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-(--color-primary)/40 transition-all duration-300 hover:shadow-xl hover:shadow-[color:var(--color-primary)]/10 flex flex-col ${p.featured ? 'ring-1 ring-(--color-primary)/20' : ''}`}
+              className={`group bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-(--color-primary)/40 transition-all duration-300 hover:shadow-xl hover:shadow-(--color-primary)/10 flex flex-col scroll-mt-28 ${p.featured ? 'ring-1 ring-(--color-primary)/20' : ''}`}
             >
-              {/* Product image area */}
               <div className={`h-48 relative bg-linear-to-br ${p.gradient} overflow-hidden`}>
                 <Image
                   src={p.image}
@@ -111,18 +122,15 @@ export default function FeaturedProducts() {
                 <div className={`absolute inset-0 bg-linear-to-br ${p.gradient} opacity-60`} />
                 <div className="absolute inset-0 grid-pattern opacity-20" />
 
-                {/* Badge */}
                 <div className="absolute top-3 left-3">
                   <span className={`text-xs font-bold px-3 py-1 rounded-full ${p.badgeColor}`}>
                     {p.badge}
                   </span>
                 </div>
 
-                {/* Hover overlay */}
                 <div className="absolute inset-0 bg-(--color-primary)/10 opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
 
-              {/* Body */}
               <div className="p-5 flex flex-col flex-1">
                 <h3 className="font-bold text-slate-900 text-base mb-1 group-hover:text-(--color-primary) transition-colors leading-snug">
                   {p.name}
@@ -134,14 +142,14 @@ export default function FeaturedProducts() {
                   {p.status}
                 </div>
 
-                {/* Action buttons */}
                 <div className="flex gap-2">
-                  <a
-                    href="#disponibilidad"
+                  <button
+                    type="button"
+                    onClick={() => openDetails(p.id)}
                     className="flex-1 flex items-center justify-center text-center border border-(--color-primary) text-(--color-primary) hover:bg-(--color-primary)/5 text-xs font-semibold py-2.5 px-2 rounded-xl transition-colors"
                   >
                     Ver detalles
-                  </a>
+                  </button>
                   <a
                     href={`https://wa.me/573001234567?text=Hola%2C%20estoy%20interesado%20en%20el%20producto%20${encodeURIComponent(p.name)}`}
                     target="_blank"
@@ -157,7 +165,6 @@ export default function FeaturedProducts() {
           ))}
         </div>
 
-        {/* CTA button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -166,14 +173,16 @@ export default function FeaturedProducts() {
           className="text-center"
         >
           <a
-            href="#disponibilidad"
-            className="inline-flex items-center gap-2 bg-(--color-secondary) hover:bg-(--color-primary) text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-[color:var(--color-primary)]/20"
+            href="#contacto"
+            className="inline-flex items-center gap-2 bg-(--color-secondary) hover:bg-(--color-primary) text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-(--color-primary)/20"
           >
             Consultar disponibilidad
             <ArrowRight size={18} />
           </a>
         </motion.div>
       </div>
+
+      <ProductDetailModal product={activeProduct} onClose={() => setActiveProduct(null)} />
     </section>
   );
 }

@@ -12,6 +12,7 @@ interface Category {
   gradient: string;
   image?: string;
   large?: boolean;
+  targetHref: string;
 }
 
 const categories: Category[] = [
@@ -23,6 +24,7 @@ const categories: Category[] = [
     gradient: 'from-(--color-primary)/90 via-blue-900/70 to-(--color-secondary)/90',
     image: '/img/categorias/tornilleria.jpg',
     large: true,
+    targetHref: '#producto-fabricacion-especial',
   },
   {
     id: 2,
@@ -31,6 +33,7 @@ const categories: Category[] = [
     icon: <Flame size={28} />,
     gradient: 'from-amber-900/85 via-orange-900/65 to-(--color-secondary)/90',
     image: '/img/categorias/mangueras.png',
+    targetHref: '#producto-mangueras-s96',
   },
   {
     id: 3,
@@ -39,6 +42,7 @@ const categories: Category[] = [
     icon: <Hammer size={28} />,
     gradient: 'from-indigo-900/85 via-blue-900/65 to-(--color-secondary)/90',
     image: '/img/categorias/ferreteria.jpg',
+    targetHref: '#producto-ferreteria-industrial',
   },
   {
     id: 4,
@@ -46,6 +50,7 @@ const categories: Category[] = [
     description: 'Artículos de oficina, papelería y suministros institucionales para empresas.',
     icon: <ShoppingBag size={28} />,
     gradient: 'from-slate-700/85 via-(--color-primary)/65 to-(--color-secondary)/90',
+    targetHref: '#destacados',
   },
 ];
 
@@ -60,12 +65,7 @@ const cardVariants = {
 
 function InstitucionalArt() {
   return (
-    <svg
-      viewBox="0 0 400 280"
-      className="absolute inset-0 w-full h-full opacity-25"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden="true"
-    >
+    <svg viewBox="0 0 400 280" className="absolute inset-0 w-full h-full opacity-25" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <rect x="60" y="90" width="140" height="170" rx="6" fill="white" opacity="0.08" transform="rotate(-6 130 175)" />
       <rect x="90" y="70" width="140" height="170" rx="6" fill="white" opacity="0.12" transform="rotate(4 160 155)" />
       <rect x="120" y="60" width="140" height="170" rx="6" fill="white" opacity="0.18" />
@@ -81,7 +81,7 @@ function InstitucionalArt() {
 
 export default function Categories() {
   return (
-    <section id="productos" className="py-24 bg-slate-900">
+    <section id="productos" className="py-24 bg-(--bg-surface-alt)">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <motion.div
@@ -94,28 +94,28 @@ export default function Categories() {
           <span className="inline-block text-(--color-primary-light) font-semibold text-sm tracking-widest uppercase mb-3">
             Nuestro Catálogo
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-(--text-heading) mb-4">
             Nuestra Categoría de Productos
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+          <p className="text-(--text-body) text-lg max-w-2xl mx-auto">
             Descubre una selección pensada para abastecer proyectos industriales con rapidez, orden y respaldo técnico.
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[280px]">
           {categories.map((cat, i) => (
-            <motion.div
+            <motion.a
               key={cat.id}
+              href={cat.targetHref}
               custom={i}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               variants={cardVariants}
-              className={`relative group rounded-2xl overflow-hidden border border-white/10 hover:border-(--color-primary)/50 transition-all duration-500 hover:shadow-xl hover:shadow-[color:var(--color-primary)]/10 cursor-pointer ${
+              className={`relative group rounded-2xl overflow-hidden border border-white/10 hover:border-(--color-primary)/50 transition-all duration-500 hover:shadow-xl hover:shadow-(--color-primary)/10 cursor-pointer block ${
                 cat.large ? 'lg:col-span-2' : 'lg:col-span-1'
               }`}
             >
-              {/* Imagen de fondo */}
               {cat.image ? (
                 <Image
                   src={cat.image}
@@ -126,25 +126,18 @@ export default function Categories() {
                   priority={cat.large}
                 />
               ) : (
-                <div className="absolute inset-0 bg-[color:var(--color-secondary)]" />
+                <div className="absolute inset-0 bg-(--color-secondary)" />
               )}
 
-              {/* Arte SVG para institucionales (sin imagen real) */}
               {!cat.image && <InstitucionalArt />}
 
-              {/* Gradient de marca sobre la imagen */}
               <div className={`absolute inset-0 bg-linear-to-br ${cat.gradient} transition-opacity duration-500 group-hover:opacity-90`} />
-
-              {/* Grid pattern overlay */}
               <div className="absolute inset-0 grid-pattern opacity-20" />
-
-              {/* Hover overlay */}
               <div className="absolute inset-0 bg-(--color-primary)/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-              {/* Content */}
               <div className="relative z-10 flex flex-col justify-end h-full p-7">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 rounded-xl bg-(--color-primary)/20 border border-(--color-primary)/30 flex items-center justify-center text-(--color-primary-light) group-hover:bg-(--color-primary)/30 transition-colors">
+                  <div className="w-12 h-12 rounded-xl bg-white/20 border border-white/30 flex items-center justify-center text-white group-hover:bg-white/30 transition-colors">
                     {cat.icon}
                   </div>
                 </div>
@@ -154,18 +147,12 @@ export default function Categories() {
                 <p className="text-gray-200 text-sm leading-relaxed mb-4 line-clamp-2">
                   {cat.description}
                 </p>
-                <a
-                  href="#contacto"
-                  className="inline-flex items-center gap-1.5 text-(--color-primary-light) hover:text-white font-semibold text-sm transition-colors group/link"
-                >
+                <span className="inline-flex items-center gap-1.5 text-(--color-primary-light) group-hover:text-white font-semibold text-sm transition-colors">
                   Ver Productos
-                  <ArrowRight
-                    size={16}
-                    className="transition-transform group-hover/link:translate-x-1"
-                  />
-                </a>
+                  <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                </span>
               </div>
-            </motion.div>
+            </motion.a>
           ))}
         </div>
       </div>
