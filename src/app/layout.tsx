@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
-// CSS side-effect imports are handled by Next.js at build time.
-// @ts-expect-error TypeScript may not have a declaration for global CSS files.
 import "./globals.css";
 
 const outfit = Outfit({
