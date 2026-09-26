@@ -62,7 +62,7 @@ export const projectDetails: ProjectDetail[] = [
     slug: 'sector-audiovisual',
     category: 'Reconstrucción de Precisión · Sector Audiovisual',
     title: 'Reconstrucción y Mantenimiento de Equipos para el Sector Audiovisual',
-    image: '/img/proyectos/sector-audiovisual.jpg',
+    image: '/img/proyectos/sector-audiovisual.png',
     paragraphs: [
       'Hemos trabajado de la mano con diferentes productoras y empresas especializadas en equipos audiovisuales, brindando soluciones de reconstrucción, reparación y fabricación de piezas para cámaras profesionales, trípodes, porta lentes, drones, videoproyectores, equipos de iluminación y otros elementos especializados.',
       'Este tipo de equipos requiere especial cuidado debido a su valor, precisión, exclusividad y delicadeza. En algunos casos, además, se trata de equipos vintage o de colección, donde conservar sus características originales es parte fundamental del trabajo.',
